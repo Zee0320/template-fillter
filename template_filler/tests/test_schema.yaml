@@ -1,0 +1,32 @@
+# Schema 配置文件
+
+# 模板文件路径（可选，CLI 也会指定）
+template: "test_template.docx"
+
+# 系统 Prompt（可选）
+system_prompt: |
+  你是一个专业的文档内容生成助手。根据用户提供的原始材料，按照要求生成对应的内容。
+  要求：
+  1. 严格按照指定的格式和字数要求生成内容
+  2. 内容应该准确反映原始材料的核心信息
+  3. 语言应当正式、专业
+  4. 不要添加任何额外的解释或说明，只输出要求的内容本身
+
+# 占位符配置
+placeholders:
+  TITLE:
+    prompt: "根据以下内容，生成一个简洁有力的项目标题（15字以内）"
+    mode: "select"
+    options_count: 3
+  
+  SUMMARY:
+    prompt: "根据以下内容，生成一段100字左右的项目摘要，概括项目背景、核心技术和主要成果"
+    mode: "auto"
+  
+  SIGNIFICANCE:
+    prompt: "根据以下内容，总结项目的社会意义和应用价值（50字左右）"
+    mode: "auto"
+  
+  KEYWORDS:
+    prompt: "根据以下内容，提取5个核心关键词，用顿号分隔"
+    mode: "auto"

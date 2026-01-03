@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Filler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://unpkg.com/docx-preview@0.3.2/dist/docx-preview.min.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Compact Header -->
+        <header class="app-header">
+            <span class="app-title">📄 Template Filler</span>
+            <div class="header-actions">
+                <input type="file" id="template-file" accept=".docx" hidden>
+                <button class="btn-sm" onclick="document.getElementById('template-file').click()">📁 上传</button>
+                <button class="btn-sm" id="save-config-btn" onclick="saveConfig()" disabled>💾 保存配置</button>
+                <button class="btn-sm" id="load-config-btn" onclick="showConfigList()">📂 加载配置</button>
+                <button class="btn-sm btn-primary" id="generate-btn" onclick="generateContent()" disabled>✨ 生成</button>
+                <button class="btn-sm" id="preview-btn" onclick="showFilledPreview()" disabled>👁️ 预览</button>
+                <button class="btn-sm btn-success" id="download-btn" onclick="downloadDocument()" disabled>📥
+                    下载</button>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="app-main">
+            <!-- Left: Template Preview -->
+            <section class="panel panel-template">
+                <div class="panel-toolbar">
+                    <span class="panel-title">模板预览</span>
+                </div>
+                <div class="panel-body docx-container" id="template-preview">
+                    <div class="empty-state">
+                        <p>上传 DOCX 模板后显示预览</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right: Config & Content -->
+            <section class="panel panel-config">
+                <div class="panel-toolbar">
+                    <span class="panel-title">占位符配置</span>
+                </div>
+                <div class="panel-body" id="placeholder-config">
+                    <div class="empty-state">
+                        <p>检测到的占位符配置将显示在此</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom: Context & Results -->
+            <section class="panel panel-bottom">
+                <div class="panel-toolbar">
+                    <span class="panel-title">原始材料</span>
+                </div>
+                <div class="panel-body">
+                    <textarea id="context-input" placeholder="在此粘贴原始材料..."></textarea>
+                </div>
+            </section>
+
+            <section class="panel panel-results">
+                <div class="panel-toolbar">
+                    <span class="panel-title">填充结果</span>
+                </div>
+                <div class="panel-body" id="content-preview">
+                    <div class="empty-state">
+                        <p>生成的内容将显示在此</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal: Filled Preview -->
+        <div class="modal" id="preview-modal" style="display: none;">
+            <div class="modal-overlay" onclick="closeModal('preview-modal')"></div>
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <span>填充效果预览</span>
+                    <button class="btn-icon" onclick="closeModal('preview-modal')">✕</button>
+                </div>
+                <div class="modal-body" id="filled-preview"></div>
+            </div>
+        </div>
+
+        <!-- Modal: Config List -->
+        <div class="modal" id="config-modal" style="display: none;">
+            <div class="modal-overlay" onclick="closeModal('config-modal')"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>已保存的配置</span>
+                    <button class="btn-icon" onclick="closeModal('config-modal')">✕</button>
+                </div>
+                <div class="modal-body" id="config-list">
+                    <div class="empty-state">暂无保存的配置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p id="loading-text">处理中...</p>
+        </div>
+
+        <!-- Toasts -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
